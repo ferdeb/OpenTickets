@@ -29,7 +29,7 @@ exports.formEditar = async (req, res) => {
       res.render('componentes/editar', { componentes, modelos });
 };
 exports.editar = async (req, res) => {
-    await Modelo.update(req.body, {
+    await Componente.update(req.body, {
         where: { componente_id: req.params.id }
     });
     res.redirect('/componentes');

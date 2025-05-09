@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Prioridades</title>
+  <title>Visualizar Estado De Los Tickets</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="p-4">
-  <h1>Prioridades</h1>
-  <a href="/prioridades/crear" class="btn btn-success mb-3">Registrar Nueva Prioridad</a>
+  <h1>Visualizar Estado De Los Tickets</h1>
   <a href="/" class="btn btn-primary mb-3">Regresar al menu</a>
-
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -18,13 +16,13 @@
       </tr>
     </thead>
     <tbody>
-      <% prioridades.forEach(c => { %>
+      <% estado_tickets.forEach(c => { %>
         <tr>
           <td><%= c.nombre %> </td>
           <td><%= c.activo ? 'Sí' : 'No' %> </td>
           <td>
-            <a href="/prioridades/editar/<%= c.prioridad_id %>" class="btn btn-warning btn-sm">Editar</a>
-            <a href="/prioridades/eliminar/<%= c.prioridad_id %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar prioridad?')">Eliminar</a>
+            <a href="/prioridades/editar/<%= c.estado_ticket_id %>" class="btn btn-warning btn-sm">Editar Estado Del Ticket</a>
+            <a href="/prioridades/eliminar/<%= c.estado_ticket_id %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar prioridad?')">Eliminar Estado Del Ticket</a>
           </td>
         </tr>
       <% }) %>
