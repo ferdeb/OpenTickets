@@ -19,6 +19,7 @@
     <input type="text" name="serie" value="<%= articulo.serie %>" class="form-control mb-2" required>
     
     <textarea name="descripcion" class="form-control mb-2"><%= articulo.descripcion %></textarea>
+    
     <% let fecha_ingreso = articulo.fecha_ingreso ? new Date(articulo.fecha_ingreso).toISOString().slice(0, 10) : ''; %>
     <input type="date" name="fecha_ingreso" value="<%= fecha_ingreso %>" class="form-control mb-2">
 

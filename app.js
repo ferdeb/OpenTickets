@@ -11,10 +11,10 @@ const estado_articuloRoutes = require('./routes/estado_articuloRoutes');
 const estado_ticketRoutes = require('./routes/estado_ticketRoutes');
 const marcaRoutes = require('./routes/marcaRoutes');
 const modeloRoutes = require('./routes/modeloRoutes');
-// const prioridadRoutes = require('./routes/prioridadRoutes');
-// const reparacionRoutes = require('./routes/reparacionRoutes');
+const prioridadRoutes = require('./routes/prioridadRoutes');
+const reparacionRoutes = require('./routes/reparacionRoutes');
 const tecnicoRoutes = require('./routes/tecnicoRoutes');
-// const ticketRoutes = require('./routes/ticketRoutes');
+const ticketRoutes = require('./routes/ticketRoutes');
 
 // Configuración
 app.set('view engine', 'ejs');
@@ -34,10 +34,10 @@ app.use('/estado_articulos', estado_articuloRoutes);
 app.use('/estado_tickets', estado_ticketRoutes);
 app.use('/marcas', marcaRoutes);
 app.use('/modelos', modeloRoutes);
-// app.use('/prioridades', prioridadRoutes);
-// app.use('/reparaciones', reparacionRoutes);
+app.use('/prioridades', prioridadRoutes);
+app.use('/reparaciones', reparacionRoutes);
 app.use('/tecnicos', tecnicoRoutes);
-// app.use('/tickets', ticketRoutes);
+app.use('/tickets', ticketRoutes);
 
 // Ruta raíz opcional
 app.get('/', (req, res) => {

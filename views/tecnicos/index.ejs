@@ -17,22 +17,22 @@
         <th>Especialidad</th>
         <th>Correo</th>
         <th>Telefono</th>
-        <th>Activo?</th>
-        <th>Acciones</th>
+        <th>Tecnico Activo?</th>
+        <th>Acciones Administrativas</th>
       </tr>
     </thead>
     <tbody>
-      <% tecnicos.forEach(c => { %>
+      <% tecnicos.forEach(a => { %>
         <tr>
-          <td><%= c.nombre %> </td>
-          <td><%= c.apellido %> </td>
-          <td><%= c.especialidad %> </td>
-          <td><%= c.correo %> </td>
-          <td><%= c.telefono %> </td>
-          <td><%= c.activo ? 'Sí' : 'No' %> </td>
+          <td><%= a.nombre %> </td>
+          <td><%= a.apellido %> </td>
+          <td><%= a.especialidad %> </td>
+          <td><%= a.correo %> </td>
+          <td><%= a.telefono %> </td>
+          <td><%= a.activo ? 'Sí' : 'No' %> </td>
           <td>
-            <a href="/tecnicos/editar/<%= c.tecnico_id %>" class="btn btn-warning btn-sm">Editar</a>
-            <a href="/tecnicos/eliminar/<%= c.tecnico_id %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar tecnico?')">Eliminar</a>
+            <a href="/tecnicos/editar/<%= a.tecnico_id %>" class="btn btn-warning btn-sm">Editar Tecnico</a>
+            <a href="/tecnicos/eliminar/<%= a.tecnico_id %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar tecnico?')">Eliminar Tecnico</a>
           </td>
         </tr>
       <% }) %>
