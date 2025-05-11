@@ -21,25 +21,25 @@
       </tr>
     </thead>
     <tbody>
-      <% clientes.forEach(c => { %>
+      <% clientes.forEach(a => { %>
         <tr>
-          <td><%= c.nombre %> </td>
-          <td><%= c.apellido %> </td>
-          <td><%= c.direccion %> </td>
-          <td><%= c.correo %> </td>
-          <td><%= c.telefono %> </td>
-          <td><%= c.activo ? 'Sí' : 'No' %> </td>
+          <td><%= a.nombre %> </td>
+          <td><%= a.apellido %> </td>
+          <td><%= a.direccion %> </td>
+          <td><%= a.correo %> </td>
+          <td><%= a.telefono %> </td>
+          <td><%= a.activo ? 'Sí' : 'No' %> </td>
           <td>
             <ul>
-              <% c.articulos.forEach(c => { %>
-                <li><%= c.serie %></li>
-                <li><%= c.descripcion %></li>
+              <% a.articulos.forEach(a => { %>
+                <li><%= a.serie %></li>
+                <li><%= a.descripcion %></li>
               <% }) %>
             </ul>
           </td>
           <td>
-            <a href="/clientes/editar/<%= c.cliente_id %>" class="btn btn-warning btn-sm">Editar</a>
-            <a href="/clientes/eliminar/<%= c.cliente_id %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar cliente?')">Eliminar</a>
+            <a href="/clientes/editar/<%= a.cliente_id %>" class="btn btn-warning btn-sm">Editar</a>
+            <a href="/clientes/eliminar/<%= a.cliente_id %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar cliente?')">Eliminar</a>
           </td>
         </tr>
       <% }) %>
