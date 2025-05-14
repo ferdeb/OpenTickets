@@ -22,7 +22,7 @@
           <td><%= a.activo ? 'Sí' : 'No' %> </td>
           <td>
             <a href="/estado_tickets/editar/<%= a.estado_ticket_id %>" class="btn btn-warning btn-sm">Editar Estado Del Ticket</a>
-            <a href="/estado_tickets/eliminar/<%= a.estado_ticket_id %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar prioridad?')">Eliminar Estado Del Ticket</a>
+            <a href="/estado_tickets/eliminar/<%= a.estado_ticket_id %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar estado del ticket?')">Eliminar Estado Del Ticket</a>
           </td>
         </tr>
       <% }) %>

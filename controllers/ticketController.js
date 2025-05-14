@@ -1,55 +1,58 @@
-const { Articulo, Cliente, Modelo, Estado_Articulo } = require('../models');
+const { Ticket, Articulo, Prioridad, Tecnico, Reparacion, Estado_Ticket  } = require('../models');
 
 exports.listar = async (req, res) => {
     // Alias para poder usar listar, crear y editar.ejs, para multiples relaciones, solo asi funciona
-    const articulos = await Articulo.findAll({ include: [
-        { model: Cliente,         as: 'cliente'        },
-        { model: Modelo,          as: 'modelo'         },
-        { model: Estado_Articulo, as: 'estado_articulo' }
+    const tickets = await Ticket.findAll({ include: [
+        { model: Articulo,      as: 'articulo'      },
+        { model: Prioridad,     as: 'prioridad'    },
+        { model: Tecnico,       as: 'tecnico'       },
+        { model: Estado_Ticket, as: 'estado_ticket' }
       ]
     });
     // Formatear fecha como string YYYY-MM-DD
-    const tareasFormateadas = articulos.map(t => {
+    const ticketsFormateados = tickets.map(t => {
         return {
             ...t.get(),
-            fecha_ingreso: t.fecha_ingreso ? new Date(t.fecha_ingreso).toISOString().slice(0, 10) : null
+            fecha: t.fecha ? new Date(t.fecha).toISOString().slice(0, 10) : null
         };
     });
-    res.render('articulos/index', { articulos: tareasFormateadas });
+    res.render('tickets/index', { tickets: ticketsFormateados });
 };
 
 exports.formCrear = async (req, res) => {
-    const [clientes, modelos, estado_articulos] = await Promise.all([
-        Cliente.findAll(),
-        Modelo.findAll(),
-        Estado_Articulo.findAll()
+    const [articulo, prioridad, tecnico, estado_ticket] = await Promise.all([
+        Articulo.findAll(),
+        Prioridad.findAll(),
+        Tecnico.findAll(),
+        Estado_Ticket.findAll()
       ]);
-      res.render('articulos/crear', { clientes, modelos, estado_articulos });
+      res.render('tickets/crear', { articulo, prioridad, tecnico, estado_ticket });
     };
     
 exports.crear = async (req, res) => {
-    await Articulo.create(req.body);
-    res.redirect('/articulos');
+    await Ticket.create(req.body);
+    res.redirect('/tickets');
 };
 
 exports.formEditar = async (req, res) => {
-    const [articulo, clientes, modelos, estado_articulos] = await Promise.all([
-        Articulo.findByPk(req.params.id),
-        Cliente.findAll(),
-        Modelo.findAll(),
-        Estado_Articulo.findAll()
+    const [ticket, articulo, prioridad, tecnico, estado_ticket] = await Promise.all([
+        Ticket.findByPk(req.params.id),
+        Articulo.findAll(),
+        Prioridad.findAll(),
+        Tecnico.findAll(),
+        Estado_Ticket.findAll()
       ]);
-      res.render('articulos/editar', { articulo, clientes, modelos, estado_articulos });
+      res.render('tickets/editar', { ticket, articulo, prioridad, tecnico, estado_ticket });
 };
 
 exports.editar = async (req, res) => {
-    await Articulo.update(req.body, {
-        where: { articulo_id: req.params.id }
+    await Ticket.update(req.body, {
+        where: { ticket_id: req.params.id }
     });
-    res.redirect('/articulos');
+    res.redirect('/tickets');
 };
 
 exports.eliminar = async (req, res) => {
-    await Articulo.destroy({ where: { articulo_id: req.params.id } });
-    res.redirect('/articulos');
+    await Ticket.destroy({ where: { ticket_id: req.params.id } });
+    res.redirect('/tickets');
 };

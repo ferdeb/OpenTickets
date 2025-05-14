@@ -47,16 +47,16 @@ const Ticket = sequelize.define('ticket', {
 
 // Relación con alias si quieres usar include
 
-Ticket.hasMany(Articulo, { foreignKey: 'articulo_id' });
-Articulo.belongsTo(Ticket, { foreignKey: 'articulo_id' });
+Articulo.hasMany(Ticket, { foreignKey: 'articulo_id' });
+Ticket.belongsTo(Articulo, { foreignKey: 'articulo_id' });
 
-Ticket.hasMany(Tecnico, { foreignKey: 'tecnico_id' });
-Tecnico.belongsTo(Ticket, { foreignKey: 'tecnico_id' });
+Prioridad.hasMany(Ticket, { foreignKey: 'prioridad_id' });
+Ticket.belongsTo(Prioridad, { foreignKey: 'prioridad_id' });
 
-Ticket.hasMany(Estado_Ticket, { foreignKey: 'estado_ticket_id' });
-Estado_Ticket.belongsTo(Ticket, { foreignKey: 'estado_ticket_id' });
+Tecnico.hasMany(Ticket, { foreignKey: 'tecnico_id' });
+Ticket.belongsTo(Tecnico, { foreignKey: 'tecnico_id' });
 
-Ticket.hasMany(Prioridad, { foreignKey: 'prioridad_id' });
-Prioridad.belongsTo(Ticket, { foreignKey: 'prioridad_id' });
+Estado_Ticket.hasMany(Ticket, { foreignKey: 'estado_ticket_id' });
+Ticket.belongsTo(Estado_Ticket, { foreignKey: 'estado_ticket_id' });
 
 module.exports = Ticket;
