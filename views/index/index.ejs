@@ -1,23 +1,397 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Página Principal</title>
+    <meta charset="UTF-8">
+    <title>Sistema de Tickets</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .title-bar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            animation: slideDown 1s ease;
+        }
+
+        .container {
+            display: flex;
+            height: calc(100vh - 60px);
+            animation: fadeIn 1s ease;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #34495e;
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+            animation: slideLeft 1s ease;
+            display: flex;
+            flex-direction: column; /* Organiza los elementos verticalmente */
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .menu-item {
+            margin-bottom: 15px;
+        }
+
+        .menu-button {
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-button:hover {
+            background-color: #1abc9c;
+        }
+
+        .menu-button img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .submenu {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            margin-left: 20px;
+            transition: max-height 0.4s ease, opacity 0.4s ease;
+        }
+
+        .submenu.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .submenu a {
+            display: block;
+            color: white;
+            background-color: #2c3e50;
+            text-decoration: none;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.4s ease, opacity 0.4s ease;
+            transform: translateY(-10px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .submenu.open a {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .submenu a:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .content-area {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Alinea los elementos a la izquierda */
+        }
+
+        .registration-form, .view-table {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            width: 80%; /* Ajusta el ancho del formulario/tabla */
+            max-width: 600px; /* Establece un ancho máximo */
+            margin-bottom: 20px; /* Espacio inferior */
+        }
+
+        .back-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            /* Ajustando el margen superior para acercarlo */
+            margin-top: 10px;
+        }
+
+        .back-button:hover {
+            background-color: #c0392b;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto; /* Empuja este elemento hacia la parte inferior */
+            padding-top: 10px; /* Reduciendo el padding superior */
+            border-top: 1px solid #555; /* Opcional: línea separadora */
+            width: 100%;
+            text-align: center; /* Opcional: centra el botón */
+        }
+
+        .sidebar-bottom .back-button {
+            width: 80%; /* O ajusta el ancho del botón en la barra lateral */
+            margin-top: 0; /* Elimina el margen superior adicional */
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-  <h1>Bienvenido al Panel</h1>
-  <ul>
-    <li><a href="/articulos" class="btn btn-primary mb-3">Visualizar Articulos</a></li>
-    <li><a href="/clientes" class="btn btn-primary mb-3">Visualizar Clientes</a></li>
-    <li><a href="/componentes" class="btn btn-primary mb-3">Visualizar Componentes</a></li>
-    <li><a href="/estado_articulos" class="btn btn-primary mb-3">Visualizar estados de los articulos</a></li>
-    <li><a href="/estado_tickets" class="btn btn-primary mb-3">Visualizar estados de los tickets</a></li>
-    <li><a href="/marcas" class="btn btn-primary mb-3">Visualizar Marcas</a></li>
-    <li><a href="/modelos" class="btn btn-primary mb-3">Visualizar Modelos</a></li>
-    <li><a href="/prioridades" class="btn btn-primary mb-3">Visualizar Prioridades del Ticket</a></li>
-    <li><a href="/reparaciones" class="btn btn-primary mb-3">Visualizar reparaciones en curso</a></li>
-    <li><a href="/tecnicos" class="btn btn-primary mb-3">Visualizar Tecnicos</a></li>
-    <li><a href="/tickets" class="btn btn-primary mb-3">Visualizar Tickets</a></li>
-  </ul>
+
+<div class="title-bar">
+    <h1>Sistema de Tickets</h1>
+</div>
+
+<div class="container">
+    <div class="sidebar">
+        <h2>Tablas</h2>
+        <div class="menu-item">
+            <button class="menu-button" onclick="toggleSubmenu('articulo-submenu')">
+                <img src="Imagenes/Laptop.png" alt="Artículo"> Artículo
+            </button>
+            <div id="articulo-submenu" class="submenu">
+                <a href="/articulos" onclick="showContent('view-articulo')">Ver Artículo</a>
+                <a href="/articulos/crear" onclick="showContent('register-articulo')">Registrar Artículo</a>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <button class="menu-button" onclick="toggleSubmenu('cliente-submenu')">
+                <img src="Imagenes/Cliente.png" alt="Cliente"> Cliente
+            </button>
+            <div id="cliente-submenu" class="submenu">
+                <a href="/clientes" onclick="showContent('view-cliente')">Ver Cliente</a>
+                <a href="/clientes/crear" onclick="showContent('register-cliente')">Registrar Cliente</a>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <button class="menu-button" onclick="toggleSubmenu('tecnico-submenu')">
+                <img src="Imagenes/Tecnico.png" alt="Técnico"> Técnico
+            </button>
+            <div id="tecnico-submenu" class="submenu">
+                <a href="/tecnicos" onclick="showContent('view-tecnico')">Ver Técnico</a>
+                <a href="/tecnicos/crear" onclick="showContent('register-tecnico')">Registrar Técnico</a>
+            </div>
+        </div>
+
+        <div class="menu-item">
+           <button class="menu-button" onclick="toggleSubmenu('ticket-submenu')">
+                <img src="Imagenes/TicketCompra.png" alt="Ticket"> Ticket
+            </button>
+            <div id="ticket-submenu" class="submenu">
+                <a href="/tickets" onclick="showContent('view-ticket')">Ver Ticket</a>
+                <a href="/tickets/crear" onclick="showContent('register-ticket')">Registrar Ticket</a>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <button class="menu-button" onclick="toggleSubmenu('estado_ticket-submenu')">
+                <img src="Imagenes/Ticket.png" alt="Estado Ticket"> Estado Ticket
+            </button>
+            <div id="estado_ticket-submenu" class="submenu">
+                <a href="/estado_tickets" onclick="showContent('view-estado_ticket')">Ver Estado Ticket</a>
+                <a href="/estado_tickets/crear" onclick="showContent('register-estado_ticket')">Registrar Estado Ticket</a>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <button class="menu-button" onclick="toggleSubmenu('prioridad-submenu')">
+                <img src="Imagenes/Prioridad.png" alt="Prioridad"> Prioridad
+            </button>
+            <div id="prioridad-submenu" class="submenu">
+                <a href="/prioridades" onclick="showContent('view-prioridad')">Ver Prioridad</a>
+                <a href="/prioridades/crear" onclick="showContent('register-prioridad')">Registrar Prioridad</a>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <button class="menu-button" onclick="toggleSubmenu('marca-submenu')">
+                <img src="Imagenes/Marca.png" alt="Marca"> Marca
+            </button>
+            <div id="marca-submenu" class="submenu">
+                <a href="/marcas" onclick="showContent('view-marca')">Ver Marca</a>
+                <a href="/marcas/crear" onclick="showContent('register-marca')">Registrar Marca</a>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <button class="menu-button" onclick="toggleSubmenu('modelo-submenu')">
+                <img src="Imagenes/Modelo.png" alt="Modelo"> Modelo
+            </button>
+            <div id="modelo-submenu" class="submenu">
+                <a href="/modelos" onclick="showContent('view-modelo')">Ver Modelo</a>
+                <a href="/modelos/crear" onclick="showContent('register-modelo')">Registrar Modelo</a>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <button class="menu-button" onclick="toggleSubmenu('componente-submenu')">
+                <img src="Imagenes/Componentes.png" alt="Componente"> Componente
+            </button>
+            <div id="componente-submenu" class="submenu">
+                <a href="/componentes" onclick="showContent('view-componente')">Ver Componente</a>
+                <a href="/componentes/crear" onclick="showContent('register-componente')">Registrar Componente</a>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <button class="menu-button" onclick="toggleSubmenu('estado_articulo-submenu')">
+                <img src="Imagenes/Prioridad.png" alt="Estado Artículo"> Estado Artículo
+            </button>
+            <div id="estado_articulo-submenu" class="submenu">
+                <a href="/estado_articulos" onclick="showContent('view-estado_articulo')">Ver Estado Artículo</a>
+                <a href="/estado_articulos/crear" onclick="showContent('register-estado_articulo')">Registrar Estado Artículo</a>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <button class="menu-button" onclick="toggleSubmenu('reparacion-submenu')">
+                <img src="Imagenes/Llave.png" alt="Reparación"> Reparación
+            </button>
+            <div id="reparacion-submenu" class="submenu">
+                <a href="/reparaciones" onclick="showContent('view-reparacion')">Ver Reparación</a>
+                <a href="/reparaciones/crear" onclick="showContent('register-reparacion')">Registrar Reparación</a>
+            </div>
+        </div>
+
+        <div class="sidebar-bottom">
+            <a href="http://localhost:3000/" class="back-button">Regresar al menu</a>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div id="register-articulo" class="registration-form">
+            <h3>Registrar Artículo</h3>
+        </div>
+        <div id="view-articulo" class="view-table">
+            <h3>Ver Artículo</h3>
+        </div>
+
+        <div id="register-cliente" class="registration-form">
+            <h3>Registrar Cliente</h3>
+        </div>
+        <div id="view-cliente" class="view-table">
+            <h3>Ver Cliente</h3>
+        </div>
+
+        <div id="register-tecnico" class="registration-form">
+            <h3>Registrar Técnico</h3>
+        </div>
+        <div id="view-tecnico" class="view-table">
+            <h3>Ver Técnico</h3>
+        </div>
+
+        <div id="register-ticket" class="registration-form">
+            <h3>Registrar Ticket</h3>
+        </div>
+        <div id="view-ticket" class="view-table">
+            <h3>Ver Ticket</h3>
+        </div>
+
+        <div id="register-estado_ticket" class="registration-form">
+            <h3>Registrar Estado Ticket</h3>
+        </div>
+        <div id="view-estado_ticket" class="view-table">
+            <h3>Ver Estado Ticket</h3>
+        </div>
+
+        <div id="register-prioridad" class="registration-form">
+            <h3>Registrar Prioridad</h3>
+        </div>
+        <div id="view-prioridad" class="view-table">
+            <h3>Ver Prioridad</h3>
+        </div>
+
+        <div id="register-marca" class="registration-form">
+            <h3>Registrar Marca</h3>
+        </div>
+        <div id="view-marca" class="view-table">
+            <h3>Ver Marca</h3>
+        </div>
+
+        <div id="register-modelo" class="registration-form">
+            <h3>Registrar Modelo</h3>
+        </div>
+        <div id="view-modelo" class="view-table">
+            <h3>Ver Modelo</h3>
+        </div>
+
+        <div id="register-componente" class="registration-form">
+            <h3>Registrar Componente</h3>
+        </div>
+        <div id="view-componente" class="view-table">
+            <h3>Ver Componente</h3>
+        </div>
+
+        <div id="register-estado_articulo" class="registration-form">
+            <h3>Registrar Estado Artículo</h3>
+        </div>
+        <div id="view-estado_articulo" class="view-table">
+            <h3>Ver Estado Artículo</h3>
+        </div>
+
+        <div id="register-reparacion" class="registration-form">
+            <h3>Registrar Reparación</h3>
+        </div>
+        <div id="view-reparacion" class="view-table">
+            <h3>Ver Reparación</h3>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleSubmenu(id) {
+        const submenu = document.getElementById(id);
+
+        document.querySelectorAll('.submenu').forEach(el => {
+            if (el.id !== id) {
+                el.classList.remove('open');
+            }
+        });
+
+        submenu.classList.toggle('open');
+    }
+
+    function showContent(id) {
+        document.querySelectorAll('.registration-form, .view-table').forEach(el => {
+            el.style.display = 'none';
+        });
+        document.getElementById(id).style.display = 'block';
+    }
+</script>
+
 </body>
 </html>
